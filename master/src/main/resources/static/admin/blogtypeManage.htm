@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>博客类别管理</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-table.css">
+    <link rel="stylesheet" type="text/css" href="/css/list.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row first-row">
+        <div class="first-row-title pull-left">
+            <div class="first-row-p">
+                <span class="glyphicon glyphicon-glass"></span>&nbsp;博客类别管理
+            </div>
+        </div>
+        <div class="first-row-button-group pull-right">
+            <button class="btn btn-default active" onclick="hideQueryParam(this)">
+                <span class="glyphicon glyphicon-collapse-down"></span>&nbsp;隐藏
+            </button>
+        </div>
+    </div>
+    <div class="row second-row">
+        <form class="form-inline">
+            <div class="form-group">
+                <label>名称：</label>
+                <input type="text" class="form-control typename">
+            </div>&nbsp;&nbsp;
+            <button class="btn btn-primary" type="button" id="btn-query">查询</button>&nbsp;&nbsp;
+            <button class="btn btn-success" type="button" id="btn-add">新增</button>&nbsp;&nbsp;
+            <button class="btn btn-info" type="button"  id="btn-edit">修改</button>&nbsp;&nbsp;
+            <button class="btn btn-danger" type="button"  id="btn-del">删除</button>&nbsp;&nbsp;
+        </form>
+    </div>
+    <div class="row  three-row">
+        <!--https://blog.csdn.net/lzx_longyou/article/details/50563907-->
+        <div class="tab-div">
+            <table class="table table-bordered table-striped table-hover table-condensed table-responsive"
+                   id="blogtype_tab">
+            </table>
+        </div>
+    </div>
+    <!-- 修改模态框 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">博客类别</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <input type="hidden" class="form-control edit-id">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">类型名称：</span>
+                                    <input type="text" class="form-control edit-typename" placeholder="类型名称">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon ">排序：</span>
+                                    <input type="number" class="form-control edit-orderno" placeholder="排序">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="btn-submit">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!--end modal -->
+</div>
+<!-- container-fluid end -->
+
+</body>
+<script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="/js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/layer/layer.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/blog/blogTypeManage.js"></script>
+
+
+</html>

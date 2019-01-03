@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>首页</title>
+    <!-- HTML5 Shiv 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+</head>
+<body>
+<!-- 头部logo -->
+<div class="header">
+    <div id="myCarousel" class="carousel slide">
+        <!-- 轮播（Carousel）指标 -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <!-- 轮播（Carousel）项目 -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="/image/mv1.jpg" alt="First slide">
+            </div>
+            <div class="item">
+                <img src="/image/mv2.jpg" alt="Second slide">
+            </div>
+            <div class="item">
+                <img src="/image/mv3.jpg" alt="Third slide">
+            </div>
+        </div>
+        <!-- 轮播（Carousel）导航 -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+<!-- 导航菜单 -->
+<div class="container nav">
+    <nav class="navbar navbar-default my-nav">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">首页</a></li>
+                    <li class="active"><a href="#">博客</a></li>
+                    <li><a href="#">快捷手册</a></li>
+                    <li><a href="#">中文文档</a></li>
+                    <li><a href="#">下载</a></li>
+                    <li><a href="#">关于</a></li>
+                </ul>
+                <form class="navbar-form navbar-right hidden-xs hidden-sm">
+                    <div class="form-group">
+                        <input type="text" class="form-control q-keyword" placeholder="请输入关键字">
+                    </div>
+                    <button type="submit" class="btn btn-default search_btn">搜索</button>
+                </form>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+
+<!-- 主页 -->
+<div class="my-main">
+    <div class="container">
+        <div class="row">
+            <!-- 左侧栏目 -->
+            <div class="col-md-8">
+                <div id="blog-menu"></div>
+                <ul class="pager">
+                    <li class="prePage"><a href="javaScript:previousPage();">上一页</a></li>
+                    <li class="nextPage"><a href="javaScript:nextPage();">下一页</a></li>
+                </ul>
+            </div>
+            <!-- 右侧侧栏目 -->
+            <div class="col-md-4 hidden-xs hidden-sm">
+                <div id="v-blogtype">
+                    <div class="jumbotron">
+                        <div class="my-blog-type">按博客类别</div>
+                        <ul class="list-group my-blog-type-list" id="v-blogtype-ul">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 尾部 -->
+<div class="footer">
+    Design by Humian 沪ICP备12138号-1
+</div>
+</body>
+<script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/layer/layer.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+
+<script>
+//初始化查询条件（默认）
+var param = {};
+param.typeid="";
+param.title ="";
+param.pageNum=1;
+param.limit = 5;
+var totalElement=0;
+    $(function () {
+        //1.加载博文
+        loadBlogContent(param);
+
+        //2.加载侧边博客汇总页面
+        loadBlogTypeMenu();
+
+       /* //初始化页面
+        $('#blog-menu').load('/front/menu?page='+page+'&limit='+5);
+        //根据博客类别列表
+        $('#v-blogtype').load('/front/blogtype');*/
+        //搜索
+        $('.search_btn').click(function () {
+            if($('.q-keyword').val()=='' || $('.q-keyword').val()==null){
+                alert('请输入关键字');
+            }else{
+                $('#blog-menu').load('/front/result?q='+$('.q-keyword').val());
+            }
+            return false;
+        });
+        $(document).on('click','.jumpToBlogType',function () {
+            typename = $(this).html();
+            $('#blog-menu').load('/front/menu?typename='+typename+'&page='+page+'&limit='+5);
+        });
+    });
+    /**
+     * 载入博文
+     */
+    function loadBlogContent(param) {
+        //Long typeid,String title, Integer pageNum, Integer limit
+        $.ajax({
+            url:"/blog/listBlog",
+            type:"get",
+            data:param,
+            success:function (data) {
+                console.log(data);
+                totalElement = data.total;
+                loadBlogMenuPage(data);//渲染页面
+            }
+        });
+    }
+    /**
+     * 渲染博文列表
+     */
+    function loadBlogMenuPage(data) {
+        if(data.rows){
+            var list = data.rows;
+            $('#blog-menu').html('');
+            for(var i=0;i<list.length;i++){
+                var Blog = list[i];
+                var blogTxT = $('<div class="blog-txt"></div>').append('<h3 class="my-blog-title"><a href="/front/view/'+Blog.id+'" target="_blank">'+Blog.title+'</a></h3>')
+                    .append('<div class="my-blog-post-mata">作者：<span class="author">'+Blog.author+'</span>&nbsp;发表于：<span class="publis-time">'+changeDateFormat(Blog.releasedate)+'</span></div>')
+                    .append('<p class="my-blog-content">'+Blog.summary.substring(0,100)+'...'+'</p>')
+                    .append(' <p><a class="btn btn-primary" href="/front/view/'+Blog.id+'" target="_blank"  role="button">阅读全文</a></p>');
+                //取内容中的图片（只取第一个）
+                var content = Blog.content;
+                var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;
+                var arr = reg.exec(content);
+                var pic = "image/1.jpg";
+                if(arr!=null){
+                    var _src = arr[0];
+                    //console.log(_src.substring(_src.indexOf("\"")+1,_src.lastIndexOf("\"")));
+                    pic =_src.substring(_src.indexOf("\"")+1,_src.lastIndexOf("\""));
+                }
+
+                $('<div class="jumbotron blog-content-jumbotron"></div>').append('<div class="my-blog-img"><img src="'+pic+'" /></div>')
+                    .append(blogTxT)
+                    .appendTo('#blog-menu');
+            }
+        }
+    }
+    /**
+     * 下一页
+     */
+    function nextPage() {
+        param.pageNum = param.pageNum + 1;
+        loadBlogContent(param);
+        console.log(param.pageNum);
+        $('.prePage').removeClass('disabled');
+        $('.nextPage').removeClass('disabled');
+        if(param.pageNum >=totalElement/(param.limit)){
+            layer.msg('没有下一页了！', {icon: 2});
+            param.pageNum=parseInt(totalElement/(param.limit));
+            if(!$('.nextPage').hasClass('disabled')){
+                $('.nextPage').addClass('disabled');
+            }
+
+        }else {
+            var scrollTop = $("#blog-menu").offset().top;
+            $('html,body').animate({ scrollTop: scrollTop }, 500, function () {});
+
+        }
+
+    }
+    /**
+     * 上一页
+     */
+    function previousPage() {
+        param.pageNum = param.pageNum - 1;
+        console.log(param.pageNum);
+        loadBlogContent(param);
+        $('.prePage').removeClass('disabled');
+        $('.nextPage').removeClass('disabled');
+        if(param.pageNum <=0){
+            layer.msg('已经是第一页了！', {icon: 2});
+            param.pageNum=1;
+            if(!$('.prePage').hasClass('disabled')){
+                $('.prePage').addClass('disabled');
+            }
+        }else {
+            var scrollTop = $("#blog-menu").offset().top;
+            $('.prePage').removeClass('disabled');
+            $('html,body').animate({ scrollTop: scrollTop }, 500, function () {});
+        }
+    }
+    /**
+     * 加载侧边博客类别汇总页
+     */
+    function loadBlogTypeMenu() {
+        $.ajax({
+            url:"/front/showBlogTypeMenu",
+            type:"get",
+            success:function (data) {
+                if(data.code==200){
+                    var result = data.data;
+                    loadBlogTypeMenuPage(result);
+                }
+            }
+        })
+    }
+    /**
+     * 渲染侧边页面
+     */
+    function loadBlogTypeMenuPage(data) {
+            var list = data;
+            /*
+            *
+            *
+            *  <li class="list-group-item"  th:each="blogtype : ${blogtypes}">
+             <a href="javascript:void(0)" class="jumpToBlogType" th:text="${blogtype.typename}">Java核心基础</a>
+             <span class="label label-primary" th:text="${blogtype.count}">15</span>
+             </li>
+
+            * */
+            $('#v-blogtype-ul').html('');
+            for(var i=0;i<list.length;i++){
+                var BlogTypeFrontVo = list[i];
+                $('<li class="list-group-item">').append('<a href="javascript:void(0)" class="jumpToBlogType">'+BlogTypeFrontVo.typename+'</a>')
+                    .append('&nbsp;&nbsp;<span class="label label-primary">'+BlogTypeFrontVo.count+'</span>')
+                    .appendTo('#v-blogtype-ul');
+            }
+    }
+</script>
+</html>
